@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer Earnings Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --accent-color: #fd79a8;
+            --dark-color: #2d3436;
+            --light-color: #f5f6fa;
+            --success-color: #00b894;
+            --warning-color: #fdcb6e;
+            --danger-color: #d63031;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.2);
+        }
+
+        .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .query-input {
+            position: relative;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            border-radius: 0.75rem !important;
+            padding: 1rem !important;
+            border: 1px solid var(--secondary-color) !important;
+        }
+
+        textarea:focus {
+            box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25) !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #5649c0;
+            border-color: #5649c0;
+        }
+
+        .result-container {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .chart-container {
+            height: 400px;
+            margin-top: 2rem;
+        }
+
+        .data-table {
+            width: 100%;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .badge {
+            padding: 0.5em 0.75em;
+            font-weight: 600;
+        }
+
+        .query-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .query-item {
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .query-item:hover {
+            background-color: rgba(108, 92, 231, 0.1);
+            border-left-color: var(--primary-color);
+        }
+
+        .spinner-border {
+            display: none;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1a1a2e;
+                color: #f5f6fa;
+            }
+
+            .card, .result-container {
+                background-color: #16213e;
+                color: #f5f6fa;
+            }
+
+            textarea {
+                background-color: #0f3460;
+                color: white;
+                border-color: #6c5ce7 !important;
+            }
+
+            .table {
+                color: #f5f6fa;
+            }
+
+            .table th {
+                background-color: #6c5ce7;
+            }
+
+            .table-striped tbody tr:nth-of-type(odd) {
+                background-color: rgba(108, 92, 231, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1><i class="fas fa-chart-line me-2"></i>Freelancer Earnings Analyzer</h1>
+            <p class="mt-2">Analyze freelancer earnings data using natural language queries</p>
+        </div>
+
+        <div class="row">
+            <!-- Main query section -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-search me-2"></i>Enter Your Query</h5>
+                        <p class="text-muted">Ask questions about freelancer earnings in natural language</p>
+
+                        <div class="query-input mb-3">
+                            <textarea id="nlQuery" class="form-control" placeholder="Example: How much more do freelancers accepting cryptocurrency earn compared to other payment methods?"></textarea>
+                        </div>
+
+                        <button id="submitQuery" class="btn btn-primary">
+                            <span class="spinner-border spinner-border-sm" id="loadingSpinner" role="status" aria-hidden="true"></span>
+                            <span id="buttonText">Analyze Data</span>
+                        </button>
+
+                        <div id="resultContainer" class="result-container mt-3">
+                            <h5><i class="fas fa-poll me-2"></i>Analysis Results</h5>
+                            <div id="analysisResult"></div>
+                            <div class="chart-container">
+                                <canvas id="resultChart"></canvas>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="resultTable" class="table table-striped data-table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-lightbulb me-2"></i>Query Examples</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card p-3 mb-3 bg-light">
+                                    <small>Payment Methods</small>
+                                    <p class="mb-0">"Compare earnings between freelancers accepting PayPal vs. cryptocurrency"</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card p-3 mb-3 bg-light">
+                                    <small>Regional Analysis</small>
+                                    <p class="mb-0">"Show average earnings by region for top 5 countries"</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card p-3 mb-3 bg-light">
+                                    <small>Experience Levels</small>
+                                    <p class="mb-0">"What percentage of expert freelancers have less than 100 projects?"</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card p-3 mb-3 bg-light">
+                                    <small>Earnings Trends</small>
+                                    <p class="mb-0">"How have average earnings changed over the past 5 years?"</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card p-3 mb-3 bg-light">
+                                    <small>Skill Analysis</small>
+                                    <p class="mb-0">"Which skills correlate with the highest hourly rates?"</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card p-3 mb-3 bg-light">
+                                    <small>Project Types</small>
+                                    <p class="mb-0">"Compare earnings between short-term and long-term projects"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar with data info and history -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-database me-2"></i>Data Coverage</h5>
+                        <p>The system analyzes anonymized freelancer data including:</p>
+
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Freelancers
+                                <span class="badge bg-primary rounded-pill">5,234</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Countries
+                                <span class="badge bg-primary rounded-pill">87</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Payment Methods
+                                <span class="badge bg-primary rounded-pill">14</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Years of Data
+                                <span class="badge bg-primary rounded-pill">2018-2023</span>
+                            </li>
+                        </ul>
+
+                        <small class="text-muted">Data source: Freelancer Earnings and Job Trends dataset</small>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-history me-2"></i>Recent Queries</h5>
+                        <p class="text-muted">Click to re-run previous analysis</p>
+
+                        <div class="query-history">
+                            <div class="query-item p-3 border-bottom" onclick="runSampleQuery(0)">
+                                <strong>Cryptocurrency earnings comparison</strong>
+                                <p class="mb-0 small">"How much more do freelancers accepting cryptocurrency earn?"</p>
+                            </div>
+                            <div class="query-item p-3 border-bottom" onclick="runSampleQuery(1)">
+                                <strong>Regional income distribution</strong>
+                                <p class="mb-0 small">"Show income distribution by freelancer location"</p>
+                            </div>
+                            <div class="query-item p-3 border-bottom" onclick="runSampleQuery(2)">
+                                <strong>Expert freelancer statistics</strong>
+                                <p class="mb-0 small">"How many expert freelancers have less than 100 projects?"</p>
+                            </div>
+                            <div class="query-item p-3 border-bottom" onclick="runSampleQuery(3)">
+                                <strong>Skill premium analysis</strong>
+                                <p class="mb-0 small">"Which skills have highest premium over average rates?"</p>
+                            </div>
+                            <div class="query-item p-3" onclick="runSampleQuery(4)">
+                                <strong>Gender earnings gap</strong>
+                                <p class="mb-0 small">"Compare average earnings between male and female freelancers"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Mock data and functions - in a real app these would be API calls
+        const sampleAnswers = [
+            {
+                text: "Freelancers who accept cryptocurrency as payment earn on average 28% more than those using traditional payment methods. The median income for crypto-accepting freelancers is $42,500 compared to $33,200 for others.",
+                chart: {
+                    type: 'bar',
+                    labels: ['Cryptocurrency', 'Traditional Payment'],
+                    data: [42500, 33200],
+                    backgroundColor: ['#6c5ce7', '#a29bfe']
+                },
+                table: {
+                    headers: ['Payment Method', 'Average Earnings', 'Median Earnings'],
+                    rows: [
+                        ['Cryptocurrency', '$45,200', '$42,500'],
+                        ['Traditional (PayPal, etc.)', '$35,600', '$33,200'],
+                        ['Difference', '+28%', '+28%']
+                    ]
+                }
+            },
+            {
+                text: "Freelancer income varies significantly by region. North America has the highest average earnings at $45,200, followed by Western Europe ($38,700) and Oceania ($36,400). The lowest average earnings are in South Asia at $12,800.",
+                chart: {
+                    type: 'bar',
+                    labels: ['North America', 'Western Europe', 'Oceania', 'East Asia', 'Latin America', 'Eastern Europe', 'Africa', 'South Asia'],
+                    data: [45200, 38700, 36400, 28900, 22300, 18400, 15800, 12800],
+                    backgroundColor: '#6c5ce7'
+                },
+                table: {
+                    headers: ['Region', 'Average Earnings', 'Median Earnings'],
+                    rows: [
+                        ['North America', '$45,200', '$43,100'],
+                        ['Western Europe', '$38,700', '$36,500'],
+                        ['Oceania', '$36,400', '$35,200'],
+                        ['East Asia', '$28,900', '$26,700'],
+                        ['Latin America', '$22,300', '$21,100'],
+                        ['Eastern Europe', '$18,400', '$17,200'],
+                        ['Africa', '$15,800', '$14,600'],
+                        ['South Asia', '$12,800', '$11,500']
+                    ]
+                }
+            },
+            {
+                text: "Approximately 22% of freelancers who identify as experts have completed fewer than 100 projects. This suggests that project count alone may not be the best indicator of expertise level among freelancers.",
+                chart: {
+                    type: 'doughnut',
+                    labels: ['Experts with <100 projects', 'Experts with ≥100 projects', 'Non-experts'],
+                    data: [22, 78, 55],
+                    backgroundColor: ['#6c5ce7', '#a29bfe', '#d6d4f7']
+                },
+                table: {
+                    headers: ['Experience Level', 'Percentage', 'Count'],
+                    rows: [
+                        ['Experts (<100 projects)', '22%', '1,152'],
+                        ['Experts (≥100 projects)', '78%', '4,082'],
+                        ['Non-expert freelancers', '55%', '2,876']
+                    ]
+                }
+            },
+            {
+                text: "Blockchain developers earn the highest premium with average hourly rates of $85, which is 142% above the platform average. Other high-premium skills include AI development (+115%), cybersecurity (+98%), and AR/VR development (+87%).",
+                chart: {
+                    type: 'horizontalBar',
+                    labels: ['Blockchain', 'AI', 'Cybersecurity', 'AR/VR', 'Cloud Architecture', 'Data Science'],
+                    data: [142, 115, 98, 87, 72, 65],
+                    backgroundColor: ['#6c5ce7', '#a29bfe', '#9286f0', '#7b6be8', '#6455e0', '#4e43d3']
+                },
+                table: {
+                    headers: ['Skill', 'Hourly Rate', 'Premium Over Average'],
+                    rows: [
+                        ['Blockchain Development', '$85/hr', '+142%'],
+                        ['AI Development', '$73/hr', '+115%'],
+                        ['Cybersecurity', '$65/hr', '+98%'],
+                        ['AR/VR Development', '$60/hr', '+87%'],
+                        ['Cloud Architecture', '$55/hr', '+72%'],
+                        ['Data Science', '$52/hr', '+65%']
+                    ]
+                }
+            },
+            {
+                text: "The analysis shows a 14% gender earnings gap on the platform. Male freelancers average $34,500 annually compared to $29,700 for female freelancers. The gap is smallest in design-related fields (6%) and largest in technical fields (18%).",
+                chart: {
+                    type: 'bar',
+                    labels: ['Male', 'Female', 'Other/Prefer not to say'],
+                    data: [34500, 29700, 31200],
+                    backgroundColor: ['#6c5ce7', '#fd79a8', '#a29bfe']
+                },
+                table: {
+                    headers: ['Gender', 'Average Earnings', 'Median Earnings', 'Earnings Gap'],
+                    rows: [
+                        ['Male', '$34,500', '$32,100', 'Base'],
+                        ['Female', '$29,700', '$27,500', '-14%'],
+                        ['Other', '$31,200', '$29,300', '-9.5%']
+                    ]
+                }
+            }
+        ];
+
+        let currentChart = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize UI elements
+            const submitButton = document.getElementById('submitQuery');
+            const queryInput = document.getElementById('nlQuery');
+            const resultContainer = document.getElementById('resultContainer');
+            const analysisResult = document.getElementById('analysisResult');
+            const resultChart = document.getElementById('resultChart').getContext('2d');
+            const resultTable = document.getElementById('resultTable');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const buttonText = document.getElementById('buttonText');
+
+            // Default processing
+            submitButton.addEventListener('click', processQuery);
+            queryInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    processQuery();
+                }
+            });
+
+            function processQuery() {
+                const query = queryInput.value.trim();
+                if (query.length === 0) return;
+
+                // Show loading state
+                loadingSpinner.style.display = 'inline-block';
+                buttonText.textContent = 'Analyzing...';
+                submitButton.disabled = true;
+
+                // Simulate API call delay
+                setTimeout(function() {
+                    // In a real app, this would call an API endpoint
+                    processQueryResponse(query);
+
+                    // Hide loading state
+                    loadingSpinner.style.display = 'none';
+                    buttonText.textContent = 'Analyze Data';
+                    submitButton.disabled = false;
+                }, 1500);
+            }
+
+            function processQueryResponse(query) {
+                // For demo purposes, we'll randomly pick one of our sample answers
+                // In a real implementation, this would parse the query and return appropriate data
+                const randomIndex = Math.floor(Math.random() * sampleAnswers.length);
+                const response = sampleAnswers[randomIndex];
+
+                // Display results
+                displayResults(response);
+
+                // Add to query history (in a real app, you'd want to store this more persistently)
+                addToHistory(query);
+            }
+
+            function displayResults(response) {
+                resultContainer.style.display = 'block';
+                analysisResult.innerHTML = `<p>${response.text}</p>`;
+
+                // Update chart
+                if (currentChart) {
+                    currentChart.destroy();
+                }
+
+                const ctx = document.getElementById('resultChart').getContext('2d');
+
+                let chartConfig = {
+                    type: response.chart.type,
+                    data: {
+                        labels: response.chart.labels,
+                        datasets: [{
+                            label: 'Earnings / Percentage',
+                            data: response.chart.data,
+                            backgroundColor: response.chart.backgroundColor,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Analysis Results',
+                                font: {
+                                    size: 16
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: response.chart.type === 'bar' ? 'Annual Earnings ($)' : 'Percentage (%)'
+                                }
+                            }
+                        }
+                    }
+                };
+
+                if (response.chart.type === 'horizontalBar') {
+                    chartConfig.options.scales = {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Premium Over Average (%)'
+                            }
+                        }
+                    };
+                }
+
+                currentChart = new Chart(ctx, chartConfig);
+
+                // Update table
+                resultTable.innerHTML = '';
+
+                // Create header
+                let thead = document.createElement('thead');
+                let headerRow = document.createElement('tr');
+
+                response.table.headers.forEach(header => {
+                    let th = document.createElement('th');
+                    th.textContent = header;
+                    headerRow.appendChild(th);
+                });
+
+                thead.appendChild(headerRow);
+                resultTable.appendChild(thead);
+
+                // Create body
+                let tbody = document.createElement('tbody');
+
+                response.table.rows.forEach(row => {
+                    let tr = document.createElement('tr');
+
+                    row.forEach(cell => {
+                        let td = document.createElement('td');
+                        td.textContent = cell;
+                        tr.appendChild(td);
+                    });
+
+                    tbody.appendChild(tr);
+                });
+
+                resultTable.appendChild(tbody);
+            }
+
+            function addToHistory(query) {
+                // In a real implementation, you'd want to store this in localStorage or a database
+                console.log(`Adding query to history: ${query}`);
+            }
+        });
+
+        // Function for running sample queries from the history panel
+        function runSampleQuery(index) {
+            const queryExamples = [
+                "How much more do freelancers accepting cryptocurrency earn compared to other payment methods?",
+                "How is freelancer income distributed across different regions?",
+                "What percentage of expert freelancers have completed fewer than 100 projects?",
+                "Which skills command the highest premium over average hourly rates?",
+                "What is the gender pay gap among freelancers on the platform?"
+            ];
+
+            if (index >= 0 && index < queryExamples.length) {
+                document.getElementById('nlQuery').value = queryExamples[index];
+                document.getElementById('submitQuery').click();
+            }
+        }
+    </script>
+</body>
+</html>
