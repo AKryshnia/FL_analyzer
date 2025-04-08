@@ -2,7 +2,8 @@ from fastapi import APIRouter, HTTPException
 from backend.app.models.query import QueryRequest
 from backend.app.models.result import QueryResponse, ChartData, TableData
 from backend.app.services.query_parser import classify_query
-from backend.app.services.analyzer import analyze_payment_method, analyze_region
+from backend.app.services.analyzer import analyze_payment_method, analyze_region, analyze_experience, analyze_skill, \
+    analyze_gender
 
 router = APIRouter()
 
@@ -10,10 +11,9 @@ router = APIRouter()
 analyzers = {
     "payment_method": analyze_payment_method,
     "region": analyze_region,
-    # Добавлять можно дополнительные функции, например:
-    # "experience": analyze_experience,
-    # "skill": analyze_skill,
-    # "gender": analyze_gender,
+    "experience": analyze_experience,
+    "skill": analyze_skill,
+    "gender": analyze_gender,
 }
 
 @router.post("/analyze", response_model=QueryResponse)

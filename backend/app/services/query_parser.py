@@ -19,6 +19,13 @@ def classify_query(question: str) -> str:
         return "skill"
     elif any(word in q for word in ["gender", "male", "female", "non-binary", "men", "women"]):
         return "gender"
+    elif any(word in q for word in ["expert", "experience", "project", "projects", "level", "seniority"]):
+        return "experience"
+    elif any(word in q for word in ["skill", "skills", "technology", "stack", "tools", "framework", "premium"]):
+        return "skill"
+    elif any(word in q for word in ["gender", "male", "female", "non-binary", "men", "women"]):
+        return "gender"
+    
     else:
         print("Unrecognized query:", q)  # DEBUG
         return "unknown"

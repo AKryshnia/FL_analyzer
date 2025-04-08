@@ -60,3 +60,79 @@ def analyze_region() -> dict:
         }
     }
 
+
+def analyze_experience() -> dict:
+    df = load_dataset()
+    experts = df[df["experience_level"] == "expert"]
+    under_100 = experts[experts["project_count"] < 100]
+    percent = round(len(under_100) / len(experts) * 100, 2) if len(experts) > 0 else 0
+
+    return {
+        "text": f"Около {percent}% экспертов выполнили менее 100 проектов.",
+        "chart": {
+            "type": "doughnut",
+            "labels": ["<100 проектов", "≥100 проектов"],
+            "data": [percent, 100 - percent],
+            "backgroundColor": ["#6c5ce7", "#a29bfe"]
+        },
+        "table": {
+            "headers": ["Категория", "Процент"],
+            "rows": [
+                ["<100 проектов", f"{percent}%"],
+                ["≥100 проектов", f"{100 - percent}%"]
+            ]
+        }
+    }
+
+
+def analyze_skill() -> dict:
+    df = load_dataset()
+    skill_stats = df.groupby("skill")["annual_income"].mean().sort_values(ascending=False).head(5)
+    labels = skill_stats.index.tolist()
+    avg_incomes = skill_stats.round(2).tolist()
+
+    rows = [
+        [skill, f"${income:,.0f}"]
+        for skill, income in zip(labels, avg_incomes)
+    ]
+
+    return {
+        "text": "Навыки с наивысшим средним доходом среди фрилансеров.",
+        "chart": {
+            "type": "bar",
+            "labels": labels,
+            "data": avg_incomes,
+            "backgroundColor": ["#6c5ce7"] * len(labels)
+        },
+        "table": {
+            "headers": ["Навык", "Средний доход"],
+            "rows": rows
+        }
+    }
+
+
+def analyze_gender() -> dict:
+    df = load_dataset()
+    gender_stats = df.groupby("gender")["annual_income"].mean().sort_values(ascending=False)
+    labels = gender_stats.index.tolist()
+    avg_incomes = gender_stats.round(2).tolist()
+
+    rows = [
+        [gender, f"${income:,.0f}"]
+        for gender, income in zip(labels, avg_incomes)
+    ]
+
+    return {
+        "text": "Средний доход фрилансеров по гендерному признаку.",
+        "chart": {
+            "type": "bar",
+            "labels": labels,
+            "data": avg_incomes,
+            "backgroundColor": ["#6c5ce7"] * len(labels)
+        },
+        "table": {
+            "headers": ["Гендер", "Средний доход"],
+            "rows": rows
+        }
+    }
+
