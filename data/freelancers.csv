@@ -1,0 +1,101 @@
+id,region,payment_method,annual_income,experience_level,project_count,skill,gender
+1,Eastern Europe,stripe,77891,expert,197,AI Development,non-binary
+2,South Asia,paypal,63904,expert,201,Cybersecurity,non-binary
+3,Western Europe,stripe,22679,intermediate,46,Mobile Development,non-binary
+4,Africa,paypal,35105,expert,156,Mobile Development,prefer not to say
+5,East Asia,bank_transfer,18579,intermediate,92,Mobile Development,female
+6,North America,paypal,6826,beginner,22,Web Development,male
+7,Eastern Europe,cryptocurrency,77812,expert,202,Mobile Development,non-binary
+8,North America,cryptocurrency,47707,expert,171,Graphic Design,non-binary
+9,North America,bank_transfer,22754,intermediate,82,Web Development,non-binary
+10,North America,bank_transfer,9772,beginner,24,Blockchain,non-binary
+11,Eastern Europe,cryptocurrency,30651,intermediate,31,Mobile Development,female
+12,Africa,bank_transfer,48614,expert,249,Blockchain,female
+13,Oceania,bank_transfer,67910,expert,203,AI Development,prefer not to say
+14,Latin America,cryptocurrency,36372,expert,237,Blockchain,non-binary
+15,East Asia,paypal,24517,intermediate,44,Web Development,male
+16,Eastern Europe,paypal,48510,expert,205,AR/VR,female
+17,South Asia,paypal,78060,expert,197,Data Science,non-binary
+18,Africa,stripe,38529,expert,133,AI Development,non-binary
+19,Africa,stripe,23652,intermediate,75,Blockchain,female
+20,South Asia,cryptocurrency,30830,intermediate,57,AR/VR,male
+21,Western Europe,cryptocurrency,31077,intermediate,81,Web Development,prefer not to say
+22,Oceania,stripe,44696,expert,137,AI Development,non-binary
+23,Africa,stripe,21858,intermediate,54,AI Development,non-binary
+24,Latin America,bank_transfer,14276,beginner,25,Cybersecurity,prefer not to say
+25,North America,cryptocurrency,39291,expert,104,Data Science,prefer not to say
+26,Eastern Europe,bank_transfer,65086,expert,113,Graphic Design,male
+27,Western Europe,cryptocurrency,7181,beginner,16,AI Development,male
+28,Latin America,cryptocurrency,33699,intermediate,83,Web Development,male
+29,Eastern Europe,cryptocurrency,12851,beginner,14,Graphic Design,male
+30,Eastern Europe,stripe,68447,expert,181,Mobile Development,female
+31,Latin America,cryptocurrency,33563,intermediate,84,Web Development,non-binary
+32,Western Europe,cryptocurrency,14630,beginner,18,AR/VR,non-binary
+33,East Asia,stripe,7088,beginner,20,Mobile Development,non-binary
+34,South Asia,bank_transfer,30434,intermediate,88,Mobile Development,female
+35,South Asia,bank_transfer,74225,expert,209,AI Development,male
+36,Oceania,bank_transfer,15710,intermediate,76,AI Development,female
+37,Western Europe,stripe,5933,beginner,14,Web Development,male
+38,Western Europe,bank_transfer,39607,expert,135,Blockchain,non-binary
+39,Oceania,stripe,8721,beginner,29,AI Development,non-binary
+40,South Asia,cryptocurrency,63468,expert,138,AR/VR,prefer not to say
+41,Africa,stripe,13042,beginner,12,AI Development,male
+42,Western Europe,bank_transfer,10009,beginner,25,AR/VR,prefer not to say
+43,Latin America,cryptocurrency,42095,expert,141,Mobile Development,male
+44,Africa,cryptocurrency,54572,expert,192,Data Science,male
+45,East Asia,bank_transfer,50930,expert,231,AR/VR,female
+46,Eastern Europe,stripe,24173,intermediate,86,Cybersecurity,non-binary
+47,Western Europe,stripe,8497,beginner,25,Web Development,non-binary
+48,Eastern Europe,paypal,39479,expert,224,Blockchain,female
+49,South Asia,stripe,33885,intermediate,32,AI Development,prefer not to say
+50,South Asia,cryptocurrency,62351,expert,168,Graphic Design,female
+51,Africa,cryptocurrency,45901,expert,107,Graphic Design,prefer not to say
+52,Latin America,cryptocurrency,58442,expert,239,AI Development,male
+53,Western Europe,stripe,40507,expert,110,Mobile Development,non-binary
+54,Oceania,cryptocurrency,21982,intermediate,71,AR/VR,non-binary
+55,Western Europe,paypal,75335,expert,143,Cybersecurity,female
+56,Eastern Europe,paypal,75797,expert,184,Web Development,prefer not to say
+57,Africa,bank_transfer,41076,expert,153,AR/VR,male
+58,Western Europe,paypal,9079,beginner,3,Graphic Design,prefer not to say
+59,North America,cryptocurrency,28015,intermediate,47,Cybersecurity,prefer not to say
+60,Latin America,cryptocurrency,26061,intermediate,45,AI Development,prefer not to say
+61,South Asia,cryptocurrency,5209,beginner,5,Mobile Development,prefer not to say
+62,East Asia,bank_transfer,68259,expert,177,Cybersecurity,prefer not to say
+63,North America,stripe,21555,intermediate,52,Graphic Design,prefer not to say
+64,Africa,stripe,38916,expert,151,Data Science,female
+65,East Asia,stripe,28055,intermediate,75,Data Science,non-binary
+66,Africa,bank_transfer,9102,beginner,1,Graphic Design,prefer not to say
+67,Western Europe,stripe,64297,expert,157,Web Development,male
+68,Western Europe,cryptocurrency,61031,expert,245,Blockchain,non-binary
+69,Western Europe,stripe,11034,beginner,8,AR/VR,non-binary
+70,Western Europe,stripe,64730,expert,200,AR/VR,male
+71,Western Europe,bank_transfer,14903,beginner,16,Cybersecurity,female
+72,Africa,paypal,74493,expert,152,Web Development,non-binary
+73,East Asia,bank_transfer,58185,expert,159,AR/VR,prefer not to say
+74,Eastern Europe,paypal,7498,beginner,27,Mobile Development,non-binary
+75,South Asia,bank_transfer,10082,beginner,9,Blockchain,male
+76,North America,cryptocurrency,13835,beginner,27,Web Development,male
+77,Latin America,paypal,68027,expert,197,AI Development,prefer not to say
+78,Eastern Europe,bank_transfer,34751,intermediate,76,Cybersecurity,non-binary
+79,East Asia,bank_transfer,7988,beginner,10,Cybersecurity,non-binary
+80,Latin America,cryptocurrency,39363,expert,250,Cybersecurity,prefer not to say
+81,Western Europe,bank_transfer,68469,expert,152,Blockchain,male
+82,Oceania,stripe,63070,expert,132,Mobile Development,prefer not to say
+83,Western Europe,paypal,18184,intermediate,62,Data Science,female
+84,Eastern Europe,stripe,23030,intermediate,83,AR/VR,female
+85,North America,cryptocurrency,22020,intermediate,38,Web Development,female
+86,East Asia,bank_transfer,8542,beginner,7,AR/VR,male
+87,Oceania,stripe,28681,intermediate,51,Cybersecurity,prefer not to say
+88,Africa,bank_transfer,8819,beginner,20,Graphic Design,male
+89,Western Europe,cryptocurrency,21926,intermediate,33,AR/VR,male
+90,South Asia,stripe,26543,intermediate,62,Graphic Design,prefer not to say
+91,Western Europe,stripe,20852,intermediate,62,Cybersecurity,non-binary
+92,Africa,paypal,40814,expert,137,Blockchain,non-binary
+93,East Asia,cryptocurrency,24179,intermediate,77,Mobile Development,non-binary
+94,South Asia,stripe,28182,intermediate,98,Blockchain,male
+95,East Asia,bank_transfer,13928,beginner,15,Web Development,non-binary
+96,Eastern Europe,stripe,29196,intermediate,36,Graphic Design,male
+97,Eastern Europe,cryptocurrency,33977,intermediate,68,Graphic Design,female
+98,Latin America,stripe,37775,expert,107,Data Science,prefer not to say
+99,East Asia,bank_transfer,13755,beginner,1,Graphic Design,prefer not to say
+100,Oceania,paypal,69439,expert,227,Blockchain,non-binary
